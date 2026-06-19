@@ -51,19 +51,19 @@ module LEA #(
   mux #(
       .DATA_WIDTH(5)
   ) mux_roundkeys_addr (
-      .a  (addr_roundkeys_ks),
-      .b  (addr_roundkeys_crypto),
+      .a(addr_roundkeys_ks),
+      .b(addr_roundkeys_crypto),
       .sel(end_key_generation),
-      .c  (addr_roundkeys)
+      .dout(addr_roundkeys)
   );
 
   mux #(
       .DATA_WIDTH(1)
   ) mux_roundkeys_rw (
-      .a  (r_w_roundkeys_ks),
-      .b  (r_w_roundkeys_crypto),
+      .a(r_w_roundkeys_ks),
+      .b(r_w_roundkeys_crypto),
       .sel(end_key_generation),
-      .c  (r_w_roundkeys)
+      .dout(r_w_roundkeys)
   );
 
   register #(
