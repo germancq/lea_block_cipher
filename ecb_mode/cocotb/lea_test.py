@@ -41,7 +41,7 @@ async def rst_function_test(dut):
 
 async def round_keys_test(dut):
     # check each T iteration
-    lea = LEA.LEA(dut.key.value)  # implementacion python
+    lea = LEA.LEA(int(dut.key.value))  # implementacion python
     lea.gen_roundKeys()
 
     for round in range(0, ROUNDS):
