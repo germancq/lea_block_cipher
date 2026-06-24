@@ -1,20 +1,11 @@
 import os
 import random
-
-import cocotb
-from cocotb.clock import Clock
-from cocotb.regression import TestFactory
-from cocotb.triggers import FallingEdge, RisingEdge, Timer
-
-home = os.getenv("HOME")
-abs_path_file_storage = (
-    home + "/gitProjects/IPCores/block_ciphers/LEA/python_code/test_cases.HEX"
-)
-
 import sys
 
-sys.path.append(home + "/gitProjects/IPCores/block_ciphers/LEA/python_code")
+import cocotb
 import LEA
+from cocotb.clock import Clock
+from cocotb.triggers import FallingEdge, RisingEdge, Timer
 
 CLK_PERIOD = 20
 KEY_LEN = 128
@@ -28,7 +19,7 @@ INPUT_256 = 0x303132333435363738393A3B3C3D3E3F
 
 
 def setup_block_cipher(dut, key, plaintext):
-    cocotb.fork(Clock(dut.clk, CLK_PERIOD).start())
+    cocotb.start_soon(Clock(dut.clk, CLK_PERIOD, unit="ns").start())
     dut.key.value = key
     dut.rst.value = 0
     dut.block_i.value = plaintext
@@ -190,13 +181,18 @@ async def n_cycles_clock(dut, n):
 
 
 @cocotb.test()
+@cocotb.parametrize(index=range(0, 10))
 async def testLUA(dut, index=0):
     global KEY_LEN
     global ROUNDS
 
-    KEY_LEN = 128
+    KEY_LEN = dut.KEY_LEN.value
     ROUNDS = 24
     BLOCK_LEN = 128
+    if KEY_LEN == 192:
+        ROUNDS = 28
+    elif KEY_LEN == 256:
+        ROUNDS = 32
 
     key = random.getrandbits(KEY_LEN)
     block = random.getrandbits(BLOCK_LEN)
@@ -206,10 +202,3 @@ async def testLUA(dut, index=0):
     await rst_function_test(dut)
     await round_keys_test(dut)
     await enc_test(dut)
-
-
-n = 10
-factory = TestFactory(testLUA)
-
-factory.add_option("index", range(0, n))
-factory.generate_tests()
