@@ -48,8 +48,8 @@ async def round_keys_test(dut):
         await n_cycles_clock(dut, 1)
 
         # check round state
-        assert (
-            dut.key_sch.current_state.value == dut.key_sch.CHECK_ROUND.value
+        assert int(dut.key_sch.current_state.value) == int(
+            dut.key_sch.CHECK_ROUND.value
         ), f"KEY_SCH ERROR, EXPECTED STATE CHECK_ROUND, STATE={dut.key_sch.current_state.value}"
         # check counter
         assert (
@@ -66,22 +66,22 @@ async def round_keys_test(dut):
 
         await n_cycles_clock(dut, 1)
         # calculate T step
-        assert (
-            dut.key_sch.current_state.value == dut.key_sch.CALCULATE_T_STEP1.value
+        assert int(dut.key_sch.current_state.value) == int(
+            dut.key_sch.CALCULATE_T_STEP1.value
         ), f"KEY_SCH ERROR, EXPECTED STATE CALCULATE_T_STEP1, STATE={dut.key_sch.current_state.value}"
         print(hex(dut.key_sch.T_dout[0].value))
 
         await n_cycles_clock(dut, 1)
         # calculate T step 2
-        assert (
-            dut.key_sch.current_state.value == dut.key_sch.CALCULATE_T_STEP2.value
+        assert int(dut.key_sch.current_state.value) == int(
+            dut.key_sch.CALCULATE_T_STEP2.value
         ), f"KEY_SCH ERROR, EXPECTED STATE CALCULATE_T_STEP2, STATE={dut.key_sch.current_state.value}"
         print(hex(dut.key_sch.T_dout[0].value))
 
         await n_cycles_clock(dut, 1)
         # store rk
-        assert (
-            dut.key_sch.current_state.value == dut.key_sch.STORE_RK.value
+        assert int(dut.key_sch.current_state.value) == int(
+            dut.key_sch.STORE_RK.value
         ), f"KEY_SCH ERROR, EXPECTED STATE STORE_RK, STATE={dut.key_sch.current_state.value}"
 
         # check roundkey
@@ -96,14 +96,14 @@ async def round_keys_test(dut):
         await n_cycles_clock(dut, 1)
 
         # update_counter
-        assert (
-            dut.key_sch.current_state.value == dut.key_sch.UPDATE_COUNTER.value
+        assert int(dut.key_sch.current_state.value) == int(
+            dut.key_sch.UPDATE_COUNTER.value
         ), f"KEY_SCH ERROR, EXPECTED STATE UPDATE_COUNTER, STATE={dut.key_sch.current_state.value}"
 
     await n_cycles_clock(dut, 2)
 
-    assert (
-        dut.key_sch.current_state.value == dut.key_sch.END_STATE.value
+    assert int(dut.key_sch.current_state.value) == int(
+        dut.key_sch.END_STATE.value
     ), f"KEY_SCH ERROR, EXPECTED STATE END_STATE, STATE={dut.key_sch.current_state.value}"
 
 
@@ -113,14 +113,14 @@ async def enc_test(dut):
     lea.gen_roundKeys()
     expected_result = lea.encrypt(dut.block_i.value.value)
 
-    assert (
-        dut.enc_impl.current_state.value == dut.enc_impl.IDLE.value
+    assert int(dut.enc_impl.current_state.value) == int(
+        dut.enc_impl.IDLE.value
     ), f"ENC ERROR, EXPECTED STATE IDLE, STATE={dut.enc_impl.current_state.value}"
 
     await n_cycles_clock(dut, 10)
 
-    assert (
-        dut.enc_impl.current_state.value == dut.enc_impl.IDLE.value
+    assert int(dut.enc_impl.current_state.value) == int(
+        dut.enc_impl.IDLE.value
     ), f"ENC ERROR, EXPECTED STATE IDLE, STATE={dut.enc_impl.current_state.value}"
 
     dut.rq_data.value = 1
@@ -128,8 +128,8 @@ async def enc_test(dut):
     for round in range(0, ROUNDS):
         await n_cycles_clock(dut, 1)
 
-        assert (
-            dut.enc_impl.current_state.value == dut.enc_impl.CHECK_ROUNDS.value
+        assert int(dut.enc_impl.current_state.value) == int(
+            dut.enc_impl.CHECK_ROUNDS.value
         ), f"ENC ERROR, EXPECTED STATE CHECK_ROUNDS, STATE={dut.enc_impl.current_state.value}"
 
         # check counter
@@ -147,26 +147,26 @@ async def enc_test(dut):
         print(hex(dut.enc_impl.X_dout[i].value))
         await n_cycles_clock(dut, 1)
 
-        assert (
-            dut.enc_impl.current_state.value == dut.enc_impl.CALCULATE_X_1.value
+        assert int(dut.enc_impl.current_state.value) == int(
+            dut.enc_impl.CALCULATE_X_1.value
         ), f"ENC ERROR, EXPECTED STATE CALCULATE_X_1, STATE={dut.enc_impl.current_state.value}"
 
         await n_cycles_clock(dut, 1)
 
-        assert (
-            dut.enc_impl.current_state.value == dut.enc_impl.CALCULATE_X_2.value
+        assert int(dut.enc_impl.current_state.value) == int(
+            dut.enc_impl.CALCULATE_X_2.value
         ), f"ENC ERROR, EXPECTED STATE CALCULATE_X_2, STATE={dut.enc_impl.current_state.value}"
 
         await n_cycles_clock(dut, 1)
 
-        assert (
-            dut.enc_impl.current_state.value == dut.enc_impl.UPDATE_ROUNDS.value
+        assert int(dut.enc_impl.current_state.value) == int(
+            dut.enc_impl.UPDATE_ROUNDS.value
         ), f"ENC ERROR, EXPECTED STATE UPDATE_ROUNDS, STATE={dut.enc_impl.current_state.value}"
 
     await n_cycles_clock(dut, 2)
 
-    assert (
-        dut.enc_impl.current_state.value == dut.enc_impl.END_STATE.value
+    assert int(dut.enc_impl.current_state.value) == int(
+        dut.enc_impl.END_STATE.value
     ), f"ENC ERROR, EXPECTED STATE END_STATE, STATE={dut.enc_impl.current_state.value}"
 
     assert (
