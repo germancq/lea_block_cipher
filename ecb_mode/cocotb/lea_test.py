@@ -53,7 +53,7 @@ async def round_keys_test(dut):
         ), f"KEY_SCH ERROR, EXPECTED STATE CHECK_ROUND, STATE={dut.key_sch.current_state.value}"
         # check counter
         assert (
-            (ROUNDS) - dut.key_sch.rk_counter_dout.value
+            (ROUNDS) - int(dut.key_sch.rk_counter_dout.value)
         ) == round, f"ERROR in KEY_SCH with the round counter it should be {round}, however it is {(ROUNDS) - dut.key_sch.rk_counter_dout.value}"
 
         print(round)
