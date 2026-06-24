@@ -186,7 +186,7 @@ async def testLUA(dut, index=0):
     global KEY_LEN
     global ROUNDS
 
-    KEY_LEN = dut.KEY_LEN.value
+    KEY_LEN = int(dut.KEY_LEN.value)
     ROUNDS = 24
     BLOCK_LEN = 128
     if KEY_LEN == 192:
