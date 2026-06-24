@@ -109,7 +109,7 @@ async def round_keys_test(dut):
 
 async def enc_test(dut):
 
-    lea = LEA.LEA(dut.key.value)  # implementacion python
+    lea = LEA.LEA(int(dut.key.value))  # implementacion python
     lea.gen_roundKeys()
     expected_result = lea.encrypt(dut.block_i.value.value)
 
