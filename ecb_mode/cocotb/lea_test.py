@@ -29,12 +29,12 @@ def setup_block_cipher(dut, key, plaintext):
 async def rst_function_test(dut):
     dut.rst.value = 1
     await n_cycles_clock(dut, 1)
-    assert (
-        dut.key_sch.current_state.value == dut.key_sch.IDLE.value
+    assert int(dut.key_sch.current_state.value) == int(
+        dut.key_sch.IDLE.value
     ), f"KEY_SCH ERROR STATE IN IDLE, STATE={dut.key_sch.current_state.value}"
     await n_cycles_clock(dut, 10)
-    assert (
-        dut.key_sch.current_state.value == dut.key_sch.IDLE.value
+    assert int(dut.key_sch.current_state.value) == int(
+        dut.key_sch.IDLE.value
     ), f"KEY_SCH ERROR STATE IN IDLE, STATE={dut.key_sch.current_state.value}"
     dut.rst.value = 0
 
