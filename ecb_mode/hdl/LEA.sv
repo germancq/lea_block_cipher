@@ -49,7 +49,7 @@ module LEA #(
   assign end_signal = end_enc;
 
   mux #(
-      .DATA_WIDTH(5)
+      .N(5)
   ) mux_roundkeys_addr (
       .a(addr_roundkeys_ks),
       .b(addr_roundkeys_crypto),
@@ -58,7 +58,7 @@ module LEA #(
   );
 
   mux #(
-      .DATA_WIDTH(1)
+      .N(1)
   ) mux_roundkeys_rw (
       .a(r_w_roundkeys_ks),
       .b(r_w_roundkeys_crypto),
@@ -81,7 +81,7 @@ module LEA #(
       .DATA_WIDTH(192)
   ) roundkeys_mem (
       .clk (clk),
-      .r_w (r_w_roundkeys),
+      .we  (r_w_roundkeys),
       .addr(addr_roundkeys),
       .din (din_roundkeys),
       .dout(dout_roundkeys)
