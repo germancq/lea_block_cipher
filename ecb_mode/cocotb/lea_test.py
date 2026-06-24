@@ -134,7 +134,7 @@ async def enc_test(dut):
 
         # check counter
         assert (
-            (ROUNDS) - dut.enc_impl.rk_counter_dout.value
+            (ROUNDS) - int(dut.enc_impl.rk_counter_dout.value)
         ) == round, f"ERROR in ENC with the round counter it should be {round}, however it is {(ROUNDS) - dut.enc_impl.rk_counter_dout.value}"
 
         print(round)
@@ -185,6 +185,8 @@ async def n_cycles_clock(dut, n):
 async def testLUA(dut, index=0):
     global KEY_LEN
     global ROUNDS
+
+    random.seed(index)
 
     KEY_LEN = int(dut.KEY_LEN.value)
     ROUNDS = 24
